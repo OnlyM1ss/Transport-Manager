@@ -2,19 +2,30 @@ package db
 
 import (
 	"context"
-	"log"
-
 	"github.com/fatih/color"
-	middlewares "github.com/umangraval/Go-Mongodb-REST-boilerplate/handlers"
-	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
+	"transport-manager/m/v1/app/config"
+
+	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var client *mongo.Client
 
+// init is invoked before main()
+func init() {
+	// loads values from .env into the system
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
+}
+
 // Dbconnect -> connects mongo
 func Dbconnect() *mongo.Client {
-	clientOptions := options.Client().ApplyURI(middlewares.DotEnvVariable("MONGO_URL"))
+	conf := config.New()
+
+	clientOptions := options.Client().ApplyURI(conf.MongoDb.Url)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Fatal("⛒ Connection Failed to Database")

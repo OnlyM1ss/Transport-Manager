@@ -8,7 +8,9 @@ import (
 // Routes -> define endpoints
 func Routes() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/transports", controller.GetTransportEndpoint).Methods("GET")
-	//router.HandleFunc("/", controller.GetTransportEndpoint).Methods("POST")
+	router.HandleFunc("/transport", controller.GetTransportsEndpoint).Methods("GET")
+	router.HandleFunc("/transport", controller.CreateTransportEndpoint).Methods("POST")
+	router.HandleFunc("/transport/{id}", controller.DeletePersonEndpoint).Methods("DELETE")
+	router.HandleFunc("/transport/{id}", controller.GetTransportEndpoint).Methods("GET")
 	return router
 }

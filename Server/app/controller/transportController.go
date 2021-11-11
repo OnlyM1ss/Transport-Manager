@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/umangraval/Go-Mongodb-REST-boilerplate/models"
 	"github.com/umangraval/Go-Mongodb-REST-boilerplate/validators"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -23,7 +22,6 @@ var GetTransportsEndpoint = http.HandlerFunc(func(response http.ResponseWriter, 
 	var transports []*model.Transport
 
 	collection := client.Database("admin").Collection("Transport")
-	fmt.Println(collection)
 	cursor, err := collection.Find(context.TODO(), bson.D{{}})
 	if err != nil {
 		middlewares.ServerErrResponse(err.Error(), response)
@@ -42,6 +40,7 @@ var GetTransportsEndpoint = http.HandlerFunc(func(response http.ResponseWriter, 
 		middlewares.ServerErrResponse(err.Error(), response)
 		return
 	}
+	fmt.Println(transports)
 	middlewares.SuccessArrRespond(transports, response)
 })
 
@@ -57,6 +56,7 @@ var CreateTransportEndpoint = http.HandlerFunc(func(response http.ResponseWriter
 		return
 	}
 	collection := client.Database("admin").Collection("Transport")
+	transport.ID = primitive.NewObjectID();
 	result, err := collection.InsertOne(context.TODO(), transport)
 	if err != nil {
 		middlewares.ServerErrResponse(err.Error(), response)
@@ -66,14 +66,14 @@ var CreateTransportEndpoint = http.HandlerFunc(func(response http.ResponseWriter
 	middlewares.SuccessResponse(`Inserted at `+strings.Replace(string(res), `"`, ``, 2), response)
 })
 
-// DeletePersonEndpoint -> delete transport by id
-var DeletePersonEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+// DeletePersonEndpoint  delete transport by id
+var DeleteTransportEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 	id, _ := primitive.ObjectIDFromHex(params["id"])
-	var person models.Person
+	var transport model.Transport
 
 	collection := client.Database("admin").Collection("Transport")
-	err := collection.FindOne(context.TODO(), bson.D{primitive.E{Key: "_id", Value: id}}).Decode(&person)
+	err := collection.FindOne(context.TODO(), bson.D{primitive.E{Key: "_id", Value: id}}).Decode(&transport)
 	if err != nil {
 		middlewares.ErrorResponse("Transport does not exist", response)
 		return

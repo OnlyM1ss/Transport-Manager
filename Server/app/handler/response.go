@@ -11,19 +11,16 @@ func SuccessArrRespond(fields []*model.Transport, writer http.ResponseWriter) {
 	// var fields["status"] := "success"
 	_, err := json.Marshal(fields)
 	type data struct {
-		People     []*model.Transport `json:"data"`
-		Statuscode int                `json:"status"`
-		Message    string             `json:"msg"`
+		Transport  []*model.Transport
 	}
-	temp := &data{People: fields, Statuscode: 200, Message: "success"}
 	if err != nil {
 		ServerErrResponse(err.Error(), writer)
 	}
 
-	//Send header, status code and output to writer
+	//Send header and output to writer
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
-	json.NewEncoder(writer).Encode(temp)
+	json.NewEncoder(writer).Encode(fields)
 }
 
 // ServerErrResponse -> server error formatter

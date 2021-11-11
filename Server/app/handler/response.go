@@ -82,12 +82,6 @@ func ErrorResponse(error string, writer http.ResponseWriter) {
 // SuccessRespond -> response formatter
 func SuccessRespond(fields model.Transport, writer http.ResponseWriter) {
 	_, err := json.Marshal(fields)
-	type data struct {
-		Transport  model.Transport `json:"data"`
-		Statuscode int             `json:"status"`
-		Message    string          `json:"msg"`
-	}
-	temp := &data{Transport: fields, Statuscode: 200, Message: "success"}
 	if err != nil {
 		ServerErrResponse(err.Error(), writer)
 	}
@@ -95,5 +89,5 @@ func SuccessRespond(fields model.Transport, writer http.ResponseWriter) {
 	//Send header, status code and output to writer
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
-	json.NewEncoder(writer).Encode(temp)
+	json.NewEncoder(writer).Encode(fields)
 }

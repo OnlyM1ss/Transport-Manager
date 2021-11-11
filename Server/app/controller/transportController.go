@@ -15,7 +15,6 @@ import (
 	middlewares "transport-manager/m/v1/app/handler"
 	"transport-manager/m/v1/app/model"
 )
-
 var client = db.Dbconnect()
 
 var GetTransportsEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {

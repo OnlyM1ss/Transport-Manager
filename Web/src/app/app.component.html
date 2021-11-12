@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
 
   <nav class="navbar">
@@ -11,29 +12,21 @@
   
       <div id="navbarMenuHeroA" class="navbar-menu">
         <div class="navbar-end">
-          <a class="navbar-item" [routerLink]="['']">
-            Home
+          <a class="navbar-item" [routerLink]="['']" *ngIf="!authService.isAuthenticated">
+            Главная страница
           </a>
-          <a class="navbar-item" [routerLink]="['/login']">
-            Login
+          <a class="navbar-item" [routerLink]="['/login']" *ngIf="!authService.isAuthenticated">
+            Войти
           </a>
-          <a class="navbar-item" [routerLink]="['/transport']">
-            Transport
+          <a class="navbar-item" [routerLink]="['/transport']" *ngIf="authService.isAuthenticated">
+            Транспорт
           </a>
-          <a class="navbar-item">
-            Logout
+          <a class="navbar-item"*ngIf="authService.isAuthenticated" (click)="authService.logout()">
+            Выйти
           </a>
         </div>
       </div>
     </div>
   </nav>
-  
   <router-outlet></router-outlet>
   
-  <footer class="footer">
-    <div class="container has-text-centered">
-      <div class="content">
-        From Croatia with ❤️
-      </div>
-    </div>
-  </footer>

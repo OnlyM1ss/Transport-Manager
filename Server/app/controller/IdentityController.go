@@ -1,12 +1,9 @@
 package controller
 
 import (
-	"context"
 	"encoding/json"
 	"errors"
 	jwt "github.com/dgrijalva/jwt-go"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -33,13 +30,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	var userData map[string]string
 	json.Unmarshal(body, &userData)
-	// TODO лишнее подключение (см. func GetAccountDataById)
-	result,err := client.Database("admin").Collection("user").Find(context.Background(), bson.M{"email": userData["email"]})
-	if err != nil {
-		http.Error(w, "Login failed!", http.StatusUnauthorized)
-	}
-	user := model.User{}
-	result.Decode(user)
+
+	// Demo - in real case scenario you'd check this against your database
+	if userData["email"] == "admin@gmail.com" && userData["password"] == "admin123" {
 		claims := JWTData{
 			StandardClaims: jwt.StandardClaims{
 				ExpiresAt: time.Now().Add(time.Hour).Unix(),
@@ -49,7 +42,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 				"userid": "u1",
 			},
 		}
-
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 		tokenString, err := token.SignedString([]byte(SECRET))
 		if err != nil {
@@ -69,6 +61,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.Write(json)
+	} else {
+		http.Error(w, "Login failed!", http.StatusUnauthorized)
+	}
 }
 func Account(w http.ResponseWriter, r *http.Request) {
 	authToken := r.Header.Get("Authorization")
@@ -109,15 +104,8 @@ func Account(w http.ResponseWriter, r *http.Request) {
 
 // GetAccountDataById Get account from db by id
 func GetAccountDataById(userID string) ([]byte, error) {
-	objectId, err := primitive.ObjectIDFromHex(userID)
-	if err != nil{
-		log.Println("Invalid id")
-	}
-	// TODO переделать (убрать двойное подключение к бд) goto func Login
-	result:= client.Database("admin").Collection("user").FindOne(context.Background(), bson.M{"_id": objectId})
-	user := model.User{}
-	result.Decode(user)
-	output := model.User{ Email: user.Email,Permission: user.Permission}
+	// TODO убрать захардкоженные значения
+	output := model.User{"admin@gmail.com","admin123"}
 	json, err := json.Marshal(output)
 	if err != nil {
 		return nil, err

@@ -12,7 +12,8 @@ func Routes() *mux.Router {
 	router.HandleFunc("/transport", controller.CreateTransportEndpoint).Methods("POST")
 	router.HandleFunc("/transport/{id}", controller.DeleteTransportEndpoint).Methods("DELETE")
 	router.HandleFunc("/transport/{id}", controller.GetTransportEndpoint).Methods("GET")
-	router.HandleFunc("/login", controller.Login).Methods("GET")
-	router.HandleFunc("/account", controller.Account).Methods("GET")
+	//Authorization
+	router.HandleFunc("/login", controller.Login)
+	router.HandleFunc("/account", controller.Account)
 	return router
 }

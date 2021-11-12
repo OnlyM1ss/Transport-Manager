@@ -3,8 +3,37 @@
     <div class="hero-body">
       <div class="container has-text-centered">
         <h1 class="is-1 title">
-          Members area
+          Транспорт
         </h1>
+        <p>Email:
+          <b>{{accountData?.email}}</b>
+        </p>
       </div>
     </div>
+    <table class="table table-striped">
+      <thead>
+          <tr>
+              <th class="hidden">Id</th>
+              <th>Название</th>
+              <th>Описание</th>
+              <th>Действия</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let transport of transports">
+              <td>{{transport.id}}</td>
+              <td>{{transport.name}}</td>
+              <td>{{transport.description}}</td>
+              <td>
+                  <a [routerLink]="['/update', transport.id]" class="btn btn-info">
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </a> &nbsp;
+                  <button class="btn" (click)="deleteTransport(transport)">
+                      <i class="fa fa-close"></i>
+                  </button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
   </section>
+ 

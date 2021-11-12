@@ -15,5 +15,4 @@ type Transport struct {
 type User struct {
 	Email      string `json:"email"`
 	Password   string `json:"password"`
-	Permission string `json:"permission"`
 }

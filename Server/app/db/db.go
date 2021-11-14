@@ -2,10 +2,10 @@ package db
 
 import (
 	"context"
+	"github.com/OnlyM1ss/transport-manager/app/config"
 	"github.com/fatih/color"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
-	"transport-manager/m/v1/app/config"
 
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"

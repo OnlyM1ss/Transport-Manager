@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/OnlyM1ss/transport-manager/app/db"
+	middlewares "github.com/OnlyM1ss/transport-manager/app/handler"
+	"github.com/OnlyM1ss/transport-manager/app/model"
 	"github.com/gorilla/mux"
 	"github.com/umangraval/Go-Mongodb-REST-boilerplate/validators"
 	"go.mongodb.org/mongo-driver/bson"
@@ -11,9 +14,6 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"transport-manager/m/v1/app/db"
-	middlewares "transport-manager/m/v1/app/handler"
-	"transport-manager/m/v1/app/model"
 )
 
 var client = db.Dbconnect()

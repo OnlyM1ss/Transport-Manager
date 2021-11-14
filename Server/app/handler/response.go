@@ -2,8 +2,8 @@ package handler
 
 import (
 	"encoding/json"
+	"github.com/OnlyM1ss/transport-manager/app/model"
 	"net/http"
-	"transport-manager/m/v1/app/model"
 )
 
 // SuccessArrRespond -> response formatter

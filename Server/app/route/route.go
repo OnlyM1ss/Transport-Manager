@@ -1,8 +1,8 @@
 package route
 
 import (
+	"github.com/OnlyM1ss/transport-manager/app/controller"
 	"github.com/gorilla/mux"
-	"transport-manager/m/v1/app/controller"
 )
 
 // Routes -> define endpoints

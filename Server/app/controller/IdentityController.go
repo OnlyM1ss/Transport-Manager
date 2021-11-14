@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/OnlyM1ss/transport-manager/app/model"
 	jwt "github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"io/ioutil"
@@ -11,7 +12,6 @@ import (
 	"net/http"
 	"strings"
 	"time"
-	"transport-manager/m/v1/app/model"
 )
 
 const (

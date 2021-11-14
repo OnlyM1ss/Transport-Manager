@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/OnlyM1ss/transport-manager/app/route"
 	"github.com/fatih/color"
 	"github.com/rs/cors"
 	"log"
 	"net/http"
-	"transport-manager/m/v1/app/route"
 )
 
 func main() {

@@ -30,7 +30,9 @@ export class TransportService {
   public createTransport(transport : any) {
     return this.http.post(this.transportUrl + "/transport", transport);
   }
-
+public searchTransportByType(type: string)  {
+  return this.http.get<any[]>(this.transportUrl + "/transport/"+ type);
+}
   public updateTransport(transport) {
     return this.http.put<Transport>(this.transportUrl + "/transport", transport);
   }

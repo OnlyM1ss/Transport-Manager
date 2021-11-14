@@ -17,7 +17,11 @@
        </a>
       </div>
       <div class="col-md-6 text-right">
-        <input class="">
+        <p>Введите Тип ТС</p>
+          <input [(ngModel)]="typeSearch">
+          <button class="btn" (click)="searchTransportByType(transport)">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
     <table class="table table-striped">
@@ -31,7 +35,7 @@
               <th>Действия</th>
           </tr>
       </thead>
-      <tbody>
+      <tbody >
           <tr *ngFor="let transport of transports">
               <td>{{transport.name}}</td>
               <td>{{transport.description}}</td>

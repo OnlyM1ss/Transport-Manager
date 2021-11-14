@@ -11,6 +11,8 @@ export class TransportComponent implements OnInit {
     accountData: any;
     transports: any[];
     transport: any;
+    typeSearch: string
+
     constructor(private authService: AuthService, private router: Router,private transportService: TransportService) { }
     ngOnInit() {
       this.transportService.getTransports().subscribe((data:any[]) => {
@@ -38,4 +40,18 @@ export class TransportComponent implements OnInit {
           this.router.navigate(['/transport']);
         })
     };
+    searchTransportByType(transport: any): void {
+      if (this.typeSearch != "") {
+        this.transportService.searchTransportByType(this.typeSearch)
+        .subscribe( (data:any[]) => {
+          this.transports = data
+        
+        })
+      }
+      else {
+        this.transportService.getTransports().subscribe((data:any[]) => {
+          this.transports = data;
+      })
+    }
+  };
 }

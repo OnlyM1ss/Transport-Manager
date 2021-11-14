@@ -17,6 +17,30 @@ import (
 )
 
 var client = db.Dbconnect()
+var GetTransportByTypeName = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+	var transports []*model.Transport
+	var transportGroup *model.TransportGroup
+	params := mux.Vars(request)
+	typeName, _ := params["name"]
+	fmt.Println(typeName)
+	typeGroupCollection := client.Database("admin").Collection("TransportGroup")
+	transportCollection := client.Database("admin").Collection("Transport")
+	filter := bson.D{}
+
+	// find some transport groups from request body by name
+	if typeName != "" {
+		filter = bson.D{{"name", typeName}}
+		typeGroupCollection.FindOne(context.TODO(), filter).Decode(&transportGroup)
+
+		for _, unitId := range transportGroup.UnitsIds {
+			var transport model.Transport
+			transportCollection.FindOne(context.TODO(), bson.M{"_id": unitId}).Decode(&transport)
+			transports = append(transports, &transport)
+		}
+	}
+
+	middlewares.SuccessArrRespond(transports, response)
+})
 
 var UpdateTransportsEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
 	var transport model.Transport

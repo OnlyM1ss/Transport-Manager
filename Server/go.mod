@@ -1,4 +1,4 @@
-module github.com/OnlyM1ss/transport-manager
+module github.com/OnlyM1ss/transport-manager/v2
 
 go 1.16
 

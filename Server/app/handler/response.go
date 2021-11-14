@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/json"
-	"github.com/OnlyM1ss/transport-manager/app/model"
+	"github.com/OnlyM1ss/transport-manager/v2/app/model"
 	"net/http"
 )
 

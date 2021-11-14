@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/OnlyM1ss/transport-manager/app/model"
+	"github.com/OnlyM1ss/transport-manager/v2/app/model"
 	jwt "github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"io/ioutil"

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/OnlyM1ss/transport-manager/app/route"
+	"github.com/OnlyM1ss/transport-manager/v2/app/route"
 	"github.com/fatih/color"
 	"github.com/rs/cors"
 	"log"

@@ -1,7 +1,7 @@
 package route
 
 import (
-	"github.com/OnlyM1ss/transport-manager/app/controller"
+	"github.com/OnlyM1ss/transport-manager/v2/app/controller"
 	"github.com/gorilla/mux"
 )
 

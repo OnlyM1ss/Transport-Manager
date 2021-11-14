@@ -12,7 +12,9 @@ import {TransportService} from './transport/transport.service';
 import { AuthService } from './auth.service';
 import { AuthInterceptorService } from './auth-interceptor.service';
 import { CanActivateViaAuthGuard } from './can-activate-via-auth.guard';
-
+import { AddTransportComponent } from './transport/add-transport.component';
+import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
+import { UpdateTransportComponent } from './transport/update-transport.component';
 const routes = [
     { path: 'login', component: LoginComponent },
     {
@@ -22,8 +24,9 @@ const routes = [
             CanActivateViaAuthGuard
         ]
     },
+    { path: 'add', component: AddTransportComponent },
     { path: '', component: HomeComponent },
-    { path: '**', redirectTo: '' }
+    { path: 'update/:id', component: UpdateTransportComponent },
 ];
 
 @NgModule({
@@ -31,7 +34,9 @@ const routes = [
         AppComponent,
         HomeComponent,
         LoginComponent,
-        TransportComponent
+        TransportComponent,
+        AddTransportComponent,
+        UpdateTransportComponent
     ],
     imports: [
         BrowserModule,
@@ -39,6 +44,8 @@ const routes = [
         ReactiveFormsModule,
         HttpClientModule,
         RouterModule.forRoot(routes),
+        DlDateTimeDateModule,  // <--- Determines the data type of the model
+        DlDateTimePickerModule,
     ],
     providers: [
         AuthService,
@@ -48,10 +55,11 @@ const routes = [
             multi: true
         },
         CanActivateViaAuthGuard,
-        TransportService
+        TransportService,
+        
 
     ],
-    
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+   
 })
 export class AppModule { }

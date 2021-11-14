@@ -1,0 +1,27 @@
+<h2>Добавить транспорт</h2>
+<form>
+    <div class="form-group">
+        <label for="name">Название:</label>
+        <input [(ngModel)]="transport.name" placeholder="Название" name="name" class="form-control" id="name">
+    </div>
+    <div class="form-group">
+        <label for="surname">Описание:</label>
+        <input [(ngModel)]="transport.description" placeholder="Описание" name="description" class="form-control" id="surname">
+    </div>
+    <div class="form-group">
+        <label for="name">Дата создания:</label>
+        <input [(ngModel)]="transport.createdAt" placeholder="Дата создания" name="name" class="form-control" id="name">
+    </div>
+    <div class="form-group">
+        <label for="name">Тип:</label>
+        <input [(ngModel)]="transport.type" placeholder="Создатель" name="name" class="form-control" id="name">
+    </div>
+    <div class="form-group">
+        <label for="name">Создатель:</label>
+        <input [(ngModel)]="transport.creatorName" placeholder="Создатель" name="name" class="form-control" id="name">
+    </div>
+    <div class="form-group text-center">
+        <button class="btn btn-success" (click)="createTransport()">Создать</button>
+    </div>
+    
+</form>

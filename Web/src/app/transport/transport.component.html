@@ -5,25 +5,39 @@
         <h1 class="is-1 title">
           Транспорт
         </h1>
-        <p>Email:
-          <b>{{accountData?.email}}</b>
+        <p>Привет,
+          <b>{{accountData?.userName}}</b>
         </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <a [routerLink]="['/add']" class="btn btn-info">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+       </a>
+      </div>
+      <div class="col-md-6 text-right">
+        <input class="">
       </div>
     </div>
     <table class="table table-striped">
       <thead>
           <tr>
-              <th class="hidden">Id</th>
               <th>Название</th>
               <th>Описание</th>
+              <th>Дата создания</th>
+              <th>Создатель</th>
+              <th>Тип</th>
               <th>Действия</th>
           </tr>
       </thead>
       <tbody>
           <tr *ngFor="let transport of transports">
-              <td>{{transport.id}}</td>
               <td>{{transport.name}}</td>
               <td>{{transport.description}}</td>
+              <td>{{transport.createdAt}}</td>
+              <td>{{transport.creatorName}}</td>
+              <td>{{transport.type}}</td>
               <td>
                   <a [routerLink]="['/update', transport.id]" class="btn btn-info">
                       <i class="fa fa-pencil" aria-hidden="true"></i>

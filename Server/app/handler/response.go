@@ -7,7 +7,7 @@ import (
 )
 
 // SuccessArrRespond -> response formatter
-func SuccessArrRespond(fields []*model.Transport, writer http.ResponseWriter) {
+func SuccessArrRespond(fields []*model.Transport, writer http.ResponseWriter) { //TODO use fabic method here
 	// var fields["status"] := "success"
 	_, err := json.Marshal(fields)
 	type data struct {

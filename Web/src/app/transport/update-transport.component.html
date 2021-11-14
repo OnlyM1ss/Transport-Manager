@@ -1,0 +1,26 @@
+<h2>Изменить транспорт</h2>
+<form (ngSubmit)="updatetransport()" #transportForm="ngForm">
+    <div class="form-group">
+        <label for="name">Название:</label>
+        <input [(ngModel)]="transport.name" placeholder="Название" name="name" class="form-control" id="name">
+    </div>
+    <div class="form-group">
+        <label for="surname">Описание:</label>
+        <input [(ngModel)]="transport.description" placeholder="Описание" name="description" class="form-control" id="surname">
+    </div>
+    <div class="form-group">
+        <label for="name">Дата создания:</label>
+        <input [(ngModel)]="transport.createdAt" placeholder="Дата создания" name="createdAt" class="form-control" id="name">
+    </div>
+    <div class="form-group">
+        <label for="name">Тип:</label>
+        <input [(ngModel)]="transport.type" placeholder="Тип" name="type" class="form-control" id="name">
+    </div>
+    <div class="form-group">
+        <label for="name">Создатель:</label>
+        <input [(ngModel)]="transport.creatorName" placeholder="Создатель" name="creatorName" class="form-control" id="name">
+    </div>
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-success" click>Изменить</button>
+    </div>
+</form>

@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { TransportGroupType } from '../models/transportGroupType';
+import {Transport} from '../models/transport.model'
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -29,8 +31,10 @@ export class TransportService {
     return this.http.post(this.transportUrl + "/transport", transport);
   }
 
-  public updateTransport(transport : any) {
-    return this.http.put(this.transportUrl + "/transport", transport);
+  public updateTransport(transport) {
+    return this.http.put<Transport>(this.transportUrl + "/transport", transport);
   }
-
+  public getGroupTypes()  {
+    return this.http.get<TransportGroupType[]>(this.transportUrl + "/transport");
+  }
 }

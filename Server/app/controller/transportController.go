@@ -15,7 +15,60 @@ import (
 	middlewares "transport-manager/m/v1/app/handler"
 	"transport-manager/m/v1/app/model"
 )
+
 var client = db.Dbconnect()
+
+var UpdateTransportsEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+	var transport model.Transport
+	err := json.NewDecoder(request.Body).Decode(&transport)
+	if err != nil {
+		middlewares.ServerErrResponse(err.Error(), response)
+		return
+	}
+
+	if ok, errors := validators.ValidateInputs(transport); !ok {
+		middlewares.ValidationResponse(errors, response)
+		return
+	}
+
+	addTransportIdInGroup(&transport)
+
+	collection := client.Database("admin").Collection("Transport")
+	filter := bson.D{{"_id", transport.ID}}
+	result, err := collection.ReplaceOne(context.TODO(), filter, transport)
+
+	if err != nil {
+		middlewares.ServerErrResponse(err.Error(), response)
+		return
+	}
+
+	res, _ := json.Marshal(result.UpsertedID)
+	middlewares.SuccessResponse(`Updated at `+strings.Replace(string(res), `"`, ``, 2), response)
+})
+
+var GetTransportTypesEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+
+	collection := client.Database("admin").Collection("Transport")
+	var transportTypes []*model.TransportGroup
+	cursor, err := collection.Find(context.TODO(), bson.D{{}})
+	if err != nil {
+		middlewares.ServerErrResponse(err.Error(), response)
+		return
+	}
+	for cursor.Next(context.TODO()) {
+		var transportType model.TransportGroup
+		err := cursor.Decode(&transportType)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		transportTypes = append(transportTypes, &transportType)
+	}
+	if err := cursor.Err(); err != nil {
+		middlewares.ServerErrResponse(err.Error(), response)
+		return
+	}
+})
 
 var GetTransportsEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
 	var transports []*model.Transport
@@ -45,25 +98,44 @@ var GetTransportsEndpoint = http.HandlerFunc(func(response http.ResponseWriter, 
 
 var CreateTransportEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
 	var transport model.Transport
+	transport.ID = primitive.NewObjectID()
+
 	err := json.NewDecoder(request.Body).Decode(&transport)
 	if err != nil {
 		middlewares.ServerErrResponse(err.Error(), response)
 		return
 	}
+
 	if ok, errors := validators.ValidateInputs(transport); !ok {
 		middlewares.ValidationResponse(errors, response)
 		return
 	}
+
+	addTransportIdInGroup(&transport)
+
 	collection := client.Database("admin").Collection("Transport")
-	transport.ID = primitive.NewObjectID();
 	result, err := collection.InsertOne(context.TODO(), transport)
+
 	if err != nil {
 		middlewares.ServerErrResponse(err.Error(), response)
 		return
 	}
+
 	res, _ := json.Marshal(result.InsertedID)
 	middlewares.SuccessResponse(`Inserted at `+strings.Replace(string(res), `"`, ``, 2), response)
 })
+
+func addTransportIdInGroup(transport *model.Transport) {
+	// filter for Transport group
+	var transportGroup model.TransportGroup
+	filter := bson.D{{"name", transport.Type}}
+	//find existing transport group
+	client.Database("admin").Collection("TransportGroup").FindOne(context.TODO(), filter).Decode(&transportGroup)
+	if transportGroup.Name != "" {
+		transportGroup.UnitsIds = append(transportGroup.UnitsIds, transport.ID)
+		client.Database("admin").Collection("TransportGroup").ReplaceOne(context.TODO(), filter, transportGroup)
+	}
+}
 
 // DeletePersonEndpoint  delete transport by id
 var DeleteTransportEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {

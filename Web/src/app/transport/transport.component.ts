@@ -9,9 +9,9 @@ import { TransportService } from './transport.service';
 })
 export class TransportComponent implements OnInit {
     accountData: any;
-    transports: any;
+    transports: any[];
+    transport: any;
     constructor(private authService: AuthService, private router: Router,private transportService: TransportService) { }
-
     ngOnInit() {
       this.transportService.getTransports().subscribe((data:any[]) => {
         this.transports = data;
@@ -29,6 +29,13 @@ export class TransportComponent implements OnInit {
       this.transportService.deleteTransport(transport)
         .subscribe( () => {
           this.transports = this.transports.filter((u: any) => u !== transport);
+        })
+    };
+    createTransport(): void {
+      this.transportService.createTransport(this.transport)
+        .subscribe( () => {
+          alert("Транспорт добавлен!.");
+          this.router.navigate(['/transport']);
         })
     };
 }
